@@ -14,9 +14,10 @@ namespace shader {
   class Shader {
   private:
     GLuint __sID;
-    void buildShader(GLuint ID, const char *shader);
-    void shaderLinkCheck(GLuint ID);
     void compilerCheck(GLuint ID);
+    void shaderLinkCheck(GLuint ID);
+    void buildShader(GLuint ID, const std::string &file_name);
+    void compileShader(GLuint ID, const char *shader);
   public:
     Shader(const std::string &vs_file_name, const std::string &fs_file_name);
     void useShader();

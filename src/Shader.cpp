@@ -9,13 +9,8 @@ shader::Shader::Shader(const std::string &vs_file_name, const std::string &fs_fi
   __sID = glCreateProgram();
   GLuint vID = glCreateShader(GL_VERTEX_SHADER);
   GLuint fID = glCreateShader(GL_FRAGMENT_SHADER);
-  
-  load::ShaderLoad vs_loader = load::ShaderLoad(vs_file_name);
-  load::ShaderLoad fs_loader = load::ShaderLoad(fs_file_name); 
-  const char* vs_source = vs_loader.getShader();
-  const char* fs_source = fs_loader.getShader();
-  buildShader(vID, vs_source);
-  buildShader(fID, fs_source);
+  buildShader(vID, vs_file_name);
+  buildShader(fID, fs_file_name);
   glLinkProgram(__sID);
   shaderLinkCheck(__sID);
   useShader();
@@ -23,7 +18,13 @@ shader::Shader::Shader(const std::string &vs_file_name, const std::string &fs_fi
   glDeleteShader(fID);
 }
 
-void shader::Shader::buildShader(GLuint ID, const char *shader) {
+void shader::Shader::buildShader(GLuint ID, const std::string &file_name) {
+  load::ShaderLoad loader = load::ShaderLoad(file_name);
+  const char* source = loader.getShader();
+  compileShader(ID, source);
+}
+
+void shader::Shader::compileShader(GLuint ID, const char *shader) {
   glShaderSource(ID, 1, &shader, NULL);
   glCompileShader(ID);
   compilerCheck(ID);
