@@ -6,7 +6,7 @@
 #ifndef _SHADERLOAD_H_
 #define _SHADERLOAD_H_
 
-#include "gl_lib.hpp"
+#include "Lib.hpp"
 #include <fstream>
 #include <iostream>
 #include <string>

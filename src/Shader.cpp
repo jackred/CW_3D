@@ -13,7 +13,7 @@ shader::Shader::Shader(const std::string &vs_file_name, const std::string &fs_fi
   buildShader(fID, fs_file_name);
   glLinkProgram(__sID);
   shaderLinkCheck(__sID);
-  useShader();
+  bind();
   glDeleteShader(vID);
   glDeleteShader(fID);
 }
@@ -65,11 +65,11 @@ void shader::Shader::shaderLinkCheck(GLuint ID){
   }
 }
 
-void shader::Shader::useShader() {
+void shader::Shader::bind() {
   glUseProgram(__sID);
 }
 
-void shader::Shader::stopUseShader() {
+void shader::Shader::unbind() {
   glUseProgram(0);
 }
 

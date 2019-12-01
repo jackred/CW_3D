@@ -1,8 +1,12 @@
 #version 130
 
+  
 attribute vec4 position;
-                //note: "attribute" should be changed to "in" on versions 130 and above
+attribute vec4 color;
 
-  void main(){
-    gl_Position = position;
-  }
+varying vec4 dstColor;
+
+void main(){
+  dstColor = color;
+  gl_Position = position;
+}

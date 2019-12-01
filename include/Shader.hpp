@@ -6,7 +6,7 @@
 #ifndef _SHADER_H_
 #define _SHADER_H_
 
-#include "gl_lib.hpp"
+#include "Lib.hpp"
 #include "ShaderLoad.hpp"
 
 namespace shader {
@@ -20,8 +20,8 @@ namespace shader {
     void compileShader(GLuint ID, const char *shader);
   public:
     Shader(const std::string &vs_file_name, const std::string &fs_file_name);
-    void useShader();
-    void stopUseShader();
+    void bind();
+    void unbind();
     GLuint getID();
     //~Shader();
   };

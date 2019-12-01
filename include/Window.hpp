@@ -14,7 +14,7 @@
 #ifndef LYNDA_WINDOW_H_INCLUDED
 #define LYNDA_WINDOW_H_INCLUDED
 
-#include "gl_lib.hpp"
+#include "Lib.hpp"
 #include <iostream>
 
 

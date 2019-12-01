@@ -12,22 +12,28 @@
 
 #include "App.hpp"
 #include "Shader.hpp"
+#include "Helper.hpp"
+
+#define GLM_FORCE_RADIANS
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
-#ifndef GLSL 
-#define GLSL(version,A) "#version " #version "\n" #A
-#endif
+
 using namespace lynda;
 
 
 struct MyApp : App {
-  vector<glm::vec2> triangle; 
+  vector<helper::Vertex> triangle; 
 
   shader::Shader test = initShader();
   GLuint positionID;
+  GLuint colorID;
   //A buffer ID
   GLuint bufferID;
   //A Vertex Array ID
@@ -46,15 +52,17 @@ struct MyApp : App {
   void init() {
     
     //Specify the 3 VERTICES of A Triangle
-    triangle.push_back( glm::vec2(-1,-.5) );               
-    triangle.push_back( glm::vec2(0,1) ); 
-    triangle.push_back( glm::vec2(1,-.5) );
-
+    helper::Vertex v1 = { glm::vec2(-1,-.5), glm::vec4(1,0,0,1) };
+    helper::Vertex v2 = { glm::vec2(0,1),    glm::vec4(0,1,0,1) };
+    helper::Vertex v3 = { glm::vec2(1,-.5),  glm::vec4(0,0,1,1) };
+    triangle.push_back(v1);               
+    triangle.push_back(v2); 
+    triangle.push_back(v3); 
    
 
     positionID = glGetAttribLocation(test.getID(), "position"); // position in shader
-
-    test.stopUseShader();
+    colorID = glGetAttribLocation(test.getID(), "color");
+    test.unbind();
     
     glGenVertexArrays(1, &arrayID);
     glBindVertexArray(arrayID);
@@ -64,24 +72,27 @@ struct MyApp : App {
     // Bind Array Buffer 
     glBindBuffer( GL_ARRAY_BUFFER, bufferID);
     // Send data over buffer to GPU
-    glBufferData( GL_ARRAY_BUFFER, triangle.size() * sizeof(glm::vec2), triangle.data(), GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, triangle.size() * sizeof(helper::Vertex), &(triangle[0]), GL_STATIC_DRAW );
     
     glEnableVertexAttribArray(positionID);
+    glEnableVertexAttribArray(colorID);
 
-    glVertexAttribPointer( positionID, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), 0 );
+    glVertexAttribPointer( positionID, 2, GL_FLOAT, GL_FALSE, sizeof(helper::Vertex), 0 );
+    glVertexAttribPointer(colorID,4,GL_FLOAT,GL_FALSE,sizeof(helper::Vertex),(void*)sizeof(glm::vec2));
+
     glBindVertexArray(0);
     glBindBuffer( GL_ARRAY_BUFFER, 0);
   }
 
   
   virtual void onDraw(){
-    test.useShader();
+    test.bind();
     glBindVertexArray(arrayID);
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
 
-    test.stopUseShader();
+    test.unbind();
   }
     
   virtual void onMouseMove(int x, int y){

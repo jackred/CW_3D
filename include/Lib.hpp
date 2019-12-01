@@ -9,14 +9,15 @@
   https://www.linkedin.com/learning/learning-opengl/
   by Pablo Colapinto (), gmail -> wolftype
 */
-
-#ifndef  gl_lib_INC
-#define  gl_lib_INC
+#ifndef _LIB_H_
+#define _LIB_H_
 
 #include <stdlib.h>
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include "GLFW/glfw3.h"
-#include <glm/glm.hpp>	
 
-#endif   /* ----- #ifndef gl_lib_INC  ----- */
+#endif /* _LIB_H_ */
+
+
