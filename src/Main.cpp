@@ -13,6 +13,7 @@
 #include "App.hpp"
 #include "Shader.hpp"
 #include "Helper.hpp"
+#include "Macro.hpp"
 
 #define GLM_FORCE_RADIANS
 #include "glm/glm.hpp"
@@ -29,8 +30,6 @@ using namespace lynda;
 
 
 struct MyApp : App {
-  vector<helper::Vertex> triangle; 
-
   shader::Shader test = initShader();
   GLuint positionID;
   GLuint colorID;
@@ -38,6 +37,9 @@ struct MyApp : App {
   GLuint bufferID;
   //A Vertex Array ID
   GLuint arrayID;
+  GLuint modelID;
+  GLuint viewID;
+  GLuint projectionID;
 
 
   MyApp() : App() { init(); }
@@ -52,16 +54,20 @@ struct MyApp : App {
   void init() {
     
     //Specify the 3 VERTICES of A Triangle
-    helper::Vertex v1 = { glm::vec2(-1,-.5), glm::vec4(1,0,0,1) };
-    helper::Vertex v2 = { glm::vec2(0,1),    glm::vec4(0,1,0,1) };
-    helper::Vertex v3 = { glm::vec2(1,-.5),  glm::vec4(0,0,1,1) };
-    triangle.push_back(v1);               
-    triangle.push_back(v2); 
-    triangle.push_back(v3); 
+    helper::Vertex triangle[] =
+      {
+       { glm::vec2(-1,0), glm::vec4(1,0,0,1) },               
+       { glm::vec2(0,1),  glm::vec4(0,1,0,1) }, 
+       { glm::vec2(1,0),  glm::vec4(0,0,1,1) } 
+      };
    
 
     positionID = glGetAttribLocation(test.getID(), "position"); // position in shader
     colorID = glGetAttribLocation(test.getID(), "color");
+    modelID = glGetUniformLocation(test.getID(), "model");
+    viewID = glGetUniformLocation(test.getID(), "view");
+    projectionID = glGetUniformLocation(test.getID(), "projection");
+
     test.unbind();
     
     glGenVertexArrays(1, &arrayID);
@@ -72,7 +78,7 @@ struct MyApp : App {
     // Bind Array Buffer 
     glBindBuffer( GL_ARRAY_BUFFER, bufferID);
     // Send data over buffer to GPU
-    glBufferData( GL_ARRAY_BUFFER, triangle.size() * sizeof(helper::Vertex), &(triangle[0]), GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, 3 * sizeof(helper::Vertex), triangle, GL_STATIC_DRAW );
     
     glEnableVertexAttribArray(positionID);
     glEnableVertexAttribArray(colorID);
@@ -86,12 +92,33 @@ struct MyApp : App {
 
   
   virtual void onDraw(){
+
+    static float time = 0.0;
+    time += .01;
+    
     test.bind();
     glBindVertexArray(arrayID);
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glBindVertexArray(0);
+    glm::mat4 view = glm::lookAt( glm::vec3(0,0,2), glm::vec3(0,0,0), glm::vec3(0,1,0) );
+    
+    glm::mat4 proj = glm::perspective( PI / 3.0f, (float)window().ratio(), 0.1f,-10.0f);
+  
+    glUniformMatrix4fv( viewID, 1, GL_FALSE, glm::value_ptr(view) );
+    glUniformMatrix4fv( projectionID, 1, GL_FALSE, glm::value_ptr(proj) );
 
+    for (int i = 0; i < 100; ++i){
+      
+      glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(sin(time),0, (float)i/100));
+      glm::mat4 rotate = glm::rotate(glm::mat4(), time * PI * i/100, glm::vec3(0,0,1) );
+      glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(1.0f- (float)i/100) );
+
+      glm::mat4 model = translate * rotate * scale;                        
+
+      glUniformMatrix4fv( modelID, 1, GL_FALSE, glm::value_ptr(model) );
+      glDrawArrays(GL_TRIANGLES, 0, 3);
+    }
+
+    glBindVertexArray(0);
     test.unbind();
   }
     
