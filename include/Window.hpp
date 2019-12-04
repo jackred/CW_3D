@@ -11,111 +11,67 @@
 */
 
 
-#ifndef LYNDA_WINDOW_H_INCLUDED
-#define LYNDA_WINDOW_H_INCLUDED
+#ifndef _WINDOW_H_
+#define _WINDOW_H_
 
 #include "Lib.hpp"
+#include "Interface.hpp"
 #include <iostream>
 
 
-using namespace std;
-namespace lynda{
+namespace window{
 
 
-  /*-----------------------------------------------------------------------------
-   *  Some Callbacks to be implemented later 
-   *-----------------------------------------------------------------------------*/
-  struct Interface {
+  struct WInterface {
+    static app::Interface * app; // <-- an unknown application to be defined later
 
-    static void * app; // <-- an unknown application to be defined later
-
-    template<class APPLICATION>
     static void OnKeyDown(GLFWwindow* window, int key, int scancode, int action, int mods){
-      ((APPLICATION*)(app))->onKeyDown(key,action);
+      app->onKeyDown(key,action);
     }
 
-    template<class APPLICATION>
     static void OnMouseMove(GLFWwindow* window, double x, double y){
-      ((APPLICATION*)(app))->onMouseMove(x,y);  
+      app->onMouseMove(x,y);  
     }
 
-    template<class APPLICATION>
     static void OnMouseDown(GLFWwindow* window, int button, int action, int mods){
-      ((APPLICATION*)(app))->onMouseDown(button,action);
+      app->onMouseDown(button,action);
     }
-
+    
+    static void OnMouseScroll(GLFWwindow* window, double x, double y) {
+      app->onMouseScroll(x, y);
+    }
   };
-
-  void * Interface::app;
-
 
 
   /*-----------------------------------------------------------------------------
    *  A GLFW Window Wrapper
    *-----------------------------------------------------------------------------*/
-  struct Window {
+  class Window {
+  private:
+    GLFWwindow* __window;
+    WInterface __interface;
+    int __width;
+    int __height;
 
-    GLFWwindow * window;
-    Interface interface;
 
-    int mWidth, mHeight;
-
-    int width()  { return mWidth; }
-    int height() { return mHeight; }
-    float ratio() { return (float)mWidth/mHeight;}
-
-    Window() {}
-
+  public:
+    Window() = default;
+    ~Window();
+    
     //Create a Window Context
-    template<class APPLICATION>
-    void create(APPLICATION * app, int w, int h, const char * name="demo"){
-        
-      interface.app = app;
-
-      mWidth = w; mHeight = h;
-
-      window = glfwCreateWindow(w,h,name,NULL ,NULL);
-      if (!window) {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-      }        
-      glfwMakeContextCurrent(window);
-      glfwSwapInterval(1); //<-- force interval (not guaranteed to work with all graphics drivers)
-
-      //register callbacks for keyboard and mouse
-      glfwSetKeyCallback(window, Interface::OnKeyDown<APPLICATION>);
-      glfwSetCursorPosCallback(window, Interface::OnMouseMove<APPLICATION> );
-      glfwSetMouseButtonCallback(window, Interface::OnMouseDown<APPLICATION> );
-
-    }
-
-
+    void create(app::Interface* app, int w, int h, const std::string &name);
     //Get the Current framebuffer Size in pixels and Set the Viewport to it    
-    void setViewport(){ 
-      glfwGetFramebufferSize(window, &mWidth, &mHeight); 
-      glViewport(0,0,mWidth,mHeight);  
-    }
-
+    void setViewport();
     //Check whether window should close
-    bool shouldClose(){
-      return glfwWindowShouldClose(window);
-    }
-
+    bool shouldClose();
     //Swap front and back buffers
-    void swapBuffers(){
-      glfwSwapBuffers(window);
-    }
+    void swapBuffers();
 
-    //Destroy the window
-    void destroy(){
-      glfwDestroyWindow(window);
-    }
+    const int getWidth();
+    const int getHeight();
+    const float getRatio();
 
-    ~Window(){
-      destroy();
-    }
   };
+}
 
-} //lynda
-
-#endif
+#endif /* _WINDOW_H_ */

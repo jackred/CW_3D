@@ -1,5 +1,5 @@
 #CMAKE FOR GLFW
-cmake_minimum_required(VERSION 2.0)
+cmake_minimum_required(VERSION 2.8.4)
 
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 OLD)
@@ -46,9 +46,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${GLEW_INCLUDE_DIRS}")
 endif(APPLE)
 
 set(SOURCE_FILES
-	src/ShaderLoad.cpp
-	src/Shader.cpp
-	src/Main.cpp
+  src/Main.cpp
+  src/Window.cpp
+  src/App.cpp
+  src/Camera.cpp
+  src/ShaderLoad.cpp
+  src/Shader.cpp
+  src/ChessScene.cpp
 )
 
 
