@@ -28,8 +28,8 @@ find_package (OpenGL REQUIRED)
 find_library(GLFW3_LIBRARY glfw REQUIRED)
 
 if(APPLE OR LINUX)
-find_path(GLEW_INCLUDE_DIR GL/glew.h)
-find_library(GLEW_LIBRARY GLEW glew REQUIRED)
+  find_path(GLEW_INCLUDE_DIR GL/glew.h)
+  find_library(GLEW_LIBRARY GLEW glew REQUIRED)
 endif(APPLE OR LINUX)
 
 
@@ -42,7 +42,7 @@ if(WINDOWS)
 endif(WINDOWS)
 
 if(APPLE)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${GLEW_INCLUDE_DIRS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${GLEW_INCLUDE_DIRS}")
 endif(APPLE)
 
 set(SOURCE_FILES
@@ -53,7 +53,7 @@ set(SOURCE_FILES
   src/ShaderLoad.cpp
   src/Shader.cpp
   src/ChessScene.cpp
-)
+  )
 
 
 add_executable(ChessScene ${SOURCE_FILES})

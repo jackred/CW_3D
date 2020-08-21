@@ -5,30 +5,22 @@
  * file, You can obtain one at https://opensource.org/licenses/MIT */
 
 #include "Camera.hpp"
-
+#include <algorithm>    // std::max
 camera::Camera::Camera(){
-  updateCam();
 }
 
-void camera::Camera::updateCamRight() {
-  __camRight = glm::normalize(glm::cross(__worldUp, __camFront));
-}
-
-void camera::Camera::updateCamUp() {
-  __camUp = glm::cross(__camFront, __camRight);
-}
-
-void camera::Camera::updateCam() {
-  updateCamRight();
-  updateCamUp();
-}
 
 const glm::vec3 camera::Camera::getCamPos() {
   return __camPos;
 }
 
+
+const GLfloat camera::Camera::getRadius() {
+  return __radius;
+}
+
 const glm::mat4 camera::Camera::getLookAtMatrix() {
-  return glm::lookAt(__camPos, __camPos + __camFront, __camUp);
+  return glm::lookAt(__camPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 const glm::mat4 camera::Camera::getProjectionMatrix(window::Window& window) {
@@ -36,37 +28,43 @@ const glm::mat4 camera::Camera::getProjectionMatrix(window::Window& window) {
 }
 
 void camera::Camera::moveForward() {
-  __camPos += __camFront * __camSpeed;
+  GLfloat tmp = __camPos[2] + __camSpeed;
+  if (tmp <= __maxZ){
+    __camPos[2] = tmp;
+    __radius += __camSpeed;
+  } else {
+    __camPos[2] = __maxZ;
+  }
+  updatePos();
 }
 
 void camera::Camera::moveBackward() {
-  __camPos -= __camFront * __camSpeed;
+  GLfloat tmp = __camPos[2] - __camSpeed;
+  if (tmp >= __minZ){
+    __camPos[2] = tmp;
+    __radius = std::max(0.0f, __radius - __camSpeed);
+  } else {
+    __camPos[2] = __minZ;
+  }
+  updatePos();
 }
 
-void camera::Camera::moveUp() {
-  __camPos += __camUp * __camSpeed;
-}
-
-void camera::Camera::moveDown() {
-  __camPos -= __camUp * __camSpeed;
-}
 
 void camera::Camera::moveLeft() {
-  __camPos -= __camRight * __camSpeed;
+  __camX -= 0.1 * __camSpeed;
+  __camY -=0.1 * __camSpeed;
+  updatePos();
 }
 
 void camera::Camera::moveRight() {
-  __camPos += __camRight * __camSpeed;
+  __camX += 0.1 * __camSpeed;
+  __camY += 0.1 * __camSpeed;
+  updatePos();
 }
 
-void camera::Camera::rotateLeft() {
-  __camFront = glm::angleAxis(__camSpeed / 6, __camUp) * __camFront;
-  updateCam();
-  std::cout << __camFront[0]  << " " << __camFront[1] << " " << __camFront[2] << std::endl;
+
+void camera::Camera::updatePos() {
+  __camPos[0] = sin(__camX) * __radius;
+  __camPos[1] = cos(__camY) * __radius;
 }
 
-void camera::Camera::rotateRight() {
-  __camFront = glm::angleAxis(-__camSpeed / 6, __camUp) * __camFront;
-  updateCam();
-  std::cout << __camFront[0]  << " " << __camFront[1] << " " << __camFront[2] << std::endl;
-}

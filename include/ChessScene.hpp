@@ -29,11 +29,10 @@ namespace scene {
   private:
     shader::Shader __test = initShader();
     GLuint __positionID;
+    GLuint __elementID;
     GLuint __colorID;
-    //A buffer ID
-    GLuint __bufferID;
-    //A Vertex Array ID
-    GLuint __arrayID;
+    GLuint __vaoID;
+    GLuint __vboID;
     GLuint __modelID;
     GLuint __viewID;
     GLuint __projectionID;

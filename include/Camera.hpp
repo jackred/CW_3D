@@ -22,33 +22,31 @@ namespace camera {
 
   class Camera {
   private:
+    const GLfloat __minZ = -10.0f; // backward
+    const GLfloat __maxZ = -1.0f; // forward
+    GLfloat __radius = 0.1f;
     float __fov = 45.0f;
+    GLfloat __camX = 0;
+    GLfloat __camY = 0;
+    glm::vec3 __camPos = glm::vec3(sin(__camX) * __radius, cos(__camY) * __radius, __minZ);
+    glm::vec3 __camFront = glm::vec3(0.0f, 0.0f, -1.0f);
 
-    glm::vec3 __camPos = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 __camFront = glm::vec3(0.0f, 0.0f, 1.0f);
-    glm::vec3 __camRight = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 __camUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    const glm::vec3 __worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    const float __camSpeed = 0.2f;
+    
+    const float __camSpeed = 0.7f;
+    void updatePos();
 
-    void updateCamRight();
-    void updateCamUp();
-    void updateCam();
   public:
     Camera();
     const glm::vec3 getCamPos();
     const glm::mat4 getLookAtMatrix();
     const glm::mat4 getProjectionMatrix(window::Window& window);
+    const GLfloat getRadius();
 
     void moveForward();
     void moveBackward();
-    void moveUp();
-    void moveDown();
     void moveLeft();
     void moveRight();
-    void rotateLeft();
-    void rotateRight();
 
     
   };
