@@ -22,7 +22,7 @@ namespace shader {
     Shader(const std::string &vs_file_name, const std::string &fs_file_name);
     void bind();
     void unbind();
-    GLuint getID();
+    const GLuint getID();
     //~Shader();
   };
 }

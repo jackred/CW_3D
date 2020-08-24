@@ -73,6 +73,6 @@ void shader::Shader::unbind() {
   glUseProgram(0);
 }
 
-GLuint shader::Shader::getID() {
+const GLuint shader::Shader::getID() {
   return __sID;
 }

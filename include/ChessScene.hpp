@@ -7,10 +7,10 @@
 #define _CHESSSCENE_H_
 
 #include "App.hpp"
-#include "Shader.hpp"
 #include "Helper.hpp"
 #include "Macro.hpp"
 #include "Camera.hpp"
+#include "Mesh.hpp"
 
 #define GLM_FORCE_RADIANS
 #include "glm/glm.hpp"
@@ -27,18 +27,19 @@ namespace scene {
   
   class ChessScene : public app::App {
   private:
-    shader::Shader __test = initShader();
-    GLuint __positionID;
-    GLuint __elementID;
-    GLuint __colorID;
-    GLuint __vaoID;
-    GLuint __vboID;
+    gl_utility::Mesh pyramide = gl_utility::Mesh( {
+        { glm::vec3(-1,-0.5,0), glm::vec4(1,0,0,1) },               
+        { glm::vec3(0,1,0), glm::vec4(0,1,0,1) }, 
+        { glm::vec3(1,-0.5,0),  glm::vec4(0,0,1,1) },
+        { glm::vec3(0,0,1),  glm::vec4(1,1,1,1) } 
+      },  { 
+        3,0,1,3,1,2,3,2,0,0,2,1});
     GLuint __modelID;
     GLuint __viewID;
     GLuint __projectionID;
-    float x,y,z = 1;
-    shader::Shader initShader();
     camera::Camera __camera;
+    shader::Shader __shader = initShader();
+    shader::Shader initShader();
   public:
     ChessScene();
     void init ();

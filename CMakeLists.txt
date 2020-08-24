@@ -52,6 +52,7 @@ set(SOURCE_FILES
   src/Camera.cpp
   src/ShaderLoad.cpp
   src/Shader.cpp
+  src/Mesh.cpp
   src/ChessScene.cpp
   )
 

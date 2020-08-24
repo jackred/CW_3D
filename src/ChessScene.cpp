@@ -12,61 +12,19 @@ scene::ChessScene::ChessScene() : App(900,800, "Chess Scene") {
 void scene::ChessScene::init() {
   
   //Specify the 3 VERTICES of A Triangle
-  helper::Vertex triangle[] =
-    {
-      { glm::vec3(-1,-0.5,0), glm::vec4(1,0,0,1) },               
-      { glm::vec3(0,1,0), glm::vec4(0,1,0,1) }, 
-      { glm::vec3(1,-0.5,0),  glm::vec4(0,0,1,1) },
-      { glm::vec3(0,0,1),  glm::vec4(1,1,1,1) } 
-    };
-  
-  GLubyte indices[12] = { 
-    3,0,1,3,1,2,3,2,0,0,2,1}; //bottom
 
+  __modelID = glGetUniformLocation(__shader.getID(), "model");
+  __viewID = glGetUniformLocation(__shader.getID(), "view");
+  __projectionID = glGetUniformLocation(__shader.getID(), "projection");
 
-  __positionID = glGetAttribLocation(__test.getID(), "position"); // position in shader
-  __colorID = glGetAttribLocation(__test.getID(), "color");
-  __modelID = glGetUniformLocation(__test.getID(), "model");
-  __viewID = glGetUniformLocation(__test.getID(), "view");
-  __projectionID = glGetUniformLocation(__test.getID(), "projection");
-
-  __test.unbind();
-    
-  glGenVertexArrays(1, &__vaoID);
-  glBindVertexArray(__vaoID);
-
-  // Generate one buffer
-  glGenBuffers(1, &__vboID);
-  // Bind Array Buffer 
-  glBindBuffer( GL_ARRAY_BUFFER, __vboID);
-  // Send data over buffer to GPU
-  glBufferData( GL_ARRAY_BUFFER, 4 * sizeof(helper::Vertex), triangle, GL_STATIC_DRAW );
-    
-
-  glGenBuffers(1, &__elementID);
-  glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, __elementID);
-  glBufferData( GL_ELEMENT_ARRAY_BUFFER, 12 * sizeof(GLubyte), indices, GL_STATIC_DRAW );
-
-
-  
-  glEnableVertexAttribArray(__positionID);
-  glEnableVertexAttribArray(__colorID);
-
-  glVertexAttribPointer( __positionID, 3, GL_FLOAT, GL_FALSE, sizeof(helper::Vertex), 0 );
-  glVertexAttribPointer(__colorID,4,GL_FLOAT,GL_FALSE,sizeof(helper::Vertex),(void*)sizeof(glm::vec3));
-
-  glBindVertexArray(0);
-  glBindBuffer( GL_ARRAY_BUFFER, 0);
-  glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0); 
+  __shader.unbind();
 
 }
 
 void scene::ChessScene::onDraw(){
   static float time = 0.0;
   time += .01;
-    
-  __test.bind();
-  glBindVertexArray(__vaoID);
+  __shader.bind();
 
       
   glm::mat4 view = __camera.getLookAtMatrix();
@@ -83,12 +41,9 @@ void scene::ChessScene::onDraw(){
   glm::mat4 model = translate * rotate * scale;                        
 
   glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-  glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, __elementID);
-  glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_BYTE, 0);
-  //}
 
-  glBindVertexArray(0);
-  __test.unbind();
+  pyramide.draw(__shader);
+  __shader.unbind();
 
 
 
@@ -134,9 +89,9 @@ void scene::ChessScene::onKeyDown(int key, int action){
   std::cout << key << std::endl;
 }
 
+
 shader::Shader scene::ChessScene::initShader() {
   std::string vs_path = "../shaders/v_test.glsl";
   std::string fs_path = "../shaders/f_test.glsl";
   return shader::Shader(vs_path, fs_path);
 }
-  
