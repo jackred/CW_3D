@@ -28,8 +28,8 @@ const glm::mat4 camera::Camera::getProjectionMatrix(window::Window& window) {
 }
 
 void camera::Camera::moveForward() {
-  GLfloat tmp = __camPos[2] + __camSpeed;
-  if (tmp <= __maxZ){
+  GLfloat tmp = __camPos[2] - __camSpeed;
+  if (tmp >= __maxZ){
     __camPos[2] = tmp;
     __radius += __camSpeed;
   } else {
@@ -39,10 +39,10 @@ void camera::Camera::moveForward() {
 }
 
 void camera::Camera::moveBackward() {
-  GLfloat tmp = __camPos[2] - __camSpeed;
-  if (tmp >= __minZ){
+  GLfloat tmp = __camPos[2] + __camSpeed;
+  if (tmp <= __minZ){
     __camPos[2] = tmp;
-    __radius = std::max(0.0f, __radius - __camSpeed);
+    __radius = std::max(0.1f, __radius - __camSpeed);
   } else {
     __camPos[2] = __minZ;
   }

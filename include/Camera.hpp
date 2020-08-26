@@ -22,9 +22,9 @@ namespace camera {
 
   class Camera {
   private:
-    const GLfloat __minZ = -20.0f; // backward
-    const GLfloat __maxZ = -5.0f; // forward
-    GLfloat __radius = 0.1f;
+    const GLfloat __minZ = 20.0f; // backward
+    const GLfloat __maxZ = 0.0f; // forward
+    GLfloat __radius = 0.00001f;
     float __fov = 45.0f;
     GLfloat __camX = 0;
     GLfloat __camY = 0;
@@ -33,7 +33,7 @@ namespace camera {
 
 
     
-    const float __camSpeed = 0.9f;
+    const float __camSpeed = 1.0f;
     void updatePos();
 
   public:
