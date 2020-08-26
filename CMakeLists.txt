@@ -53,6 +53,7 @@ set(SOURCE_FILES
   src/ShaderLoad.cpp
   src/Shader.cpp
   src/Mesh.cpp
+  src/Tile.cpp
   src/ChessScene.cpp
   )
 

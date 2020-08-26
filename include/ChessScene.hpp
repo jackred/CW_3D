@@ -11,6 +11,7 @@
 #include "Macro.hpp"
 #include "Camera.hpp"
 #include "Mesh.hpp"
+#include "Tile.hpp"
 
 #define GLM_FORCE_RADIANS
 #include "glm/glm.hpp"
@@ -27,13 +28,9 @@ namespace scene {
   
   class ChessScene : public app::App {
   private:
-    gl_utility::Mesh pyramide = gl_utility::Mesh( {
-        { glm::vec3(-1,-0.5,0), glm::vec4(1,0,0,1) },               
-        { glm::vec3(0,1,0), glm::vec4(0,1,0,1) }, 
-        { glm::vec3(1,-0.5,0),  glm::vec4(0,0,1,1) },
-        { glm::vec3(0,0,1),  glm::vec4(1,1,1,1) } 
-      },  { 
-        3,0,1,3,1,2,3,2,0,0,2,1});
+    gl_utility::Mesh blackTile = gl_utility::Mesh(object::getTileOfColor(glm::vec4(0,0,0,1)), object::getindicesTile());
+    gl_utility::Mesh whiteTile = gl_utility::Mesh(object::getTileOfColor(glm::vec4(1,1,1,1)), object::getindicesTile());
+    gl_utility::Mesh pyramide = gl_utility::Mesh(object::getPyramide(), object::getIndicesPyramide());
     GLuint __modelID;
     GLuint __viewID;
     GLuint __projectionID;

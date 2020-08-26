@@ -9,6 +9,7 @@
 gl_utility::Mesh::Mesh(std::vector<helper::Vertex> vertices, std::vector<unsigned int> indices){
   __vertices = vertices;
   __indices = indices;
+  
   initMesh();
   
 }
@@ -49,6 +50,7 @@ void gl_utility::Mesh::draw(shader::Shader &shader){
   glBindVertexArray(__vaoID);
   glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, __vbeID);
   glDrawElements(GL_TRIANGLES, __indices.size(), GL_UNSIGNED_INT, 0);
+  glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 } 
 

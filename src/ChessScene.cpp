@@ -34,15 +34,26 @@ void scene::ChessScene::onDraw(){
   glUniformMatrix4fv( __viewID, 1, GL_FALSE, glm::value_ptr(view) );
   glUniformMatrix4fv( __projectionID, 1, GL_FALSE, glm::value_ptr(proj) );
       
-  glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(0,0,0));
   glm::mat4 rotate = glm::rotate(glm::mat4(), 0.0f, glm::vec3(0,0,1));
   glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(1.0f));
 
-  glm::mat4 model = translate * rotate * scale;                        
 
-  glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+  //pyramide.draw(__shader);
+  int i;
+  int j;
+  for (i = -4; i < 4; i++) {
+    for (j = -4; j < 4; j++) {
+      glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(i,j,0));
+      glm::mat4 model = translate * rotate * scale;                        
+      glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+      if ((i+j) % 2 == 0) {
+        blackTile.draw(__shader);
+      } else {
+        whiteTile.draw(__shader);     
+      }
+    }
+  }
 
-  pyramide.draw(__shader);
   __shader.unbind();
 
 
