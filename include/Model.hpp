@@ -28,9 +28,6 @@ namespace scene{
   public:
     Model(std::string path, glm::vec4 color);
     void draw(shader::Shader &shader);
-    // void setPosition(glm::vec3 position);
-    // void setOrientation(glm::vec3 orientation);
-    // void setSize(glm::vec3 size);
     
   private:
     gl_utility::Mesh* __mesh;

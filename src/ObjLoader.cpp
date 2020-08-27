@@ -32,12 +32,6 @@ void object::ObjLoader::loadFile(std::ifstream &file) {
     if (type == "v") {
       __position.push_back(getValuesVec3(value));
     }
-    if (type == "vt") {
-      //_texture.push_back(getValuesVec2(value));
-    }
-    if (type == "vn") {
-      //_normal.push_back(getValuesVec3(value));
-    }
     if (type == "f") {
       buildVertices(value);
     }
@@ -63,35 +57,6 @@ void object::ObjLoader::buildVertices(std::string &str) {
   }
   buildIndices((unsigned int) __vertices.size(), 1);
   __vertices.insert(__vertices.end(), list.begin(), list.end());
-  
-  
-  // std::vector<helper::Vertex> list;
-  // int index[3] = {};
-
-  // unsigned int spaces = (unsigned int) std::count(str.begin(), str.end(), ' ');
-  // unsigned int del = (unsigned int) std::count(str.begin(), str.end(), '/');
-  // if (spaces < 2 || del / (spaces + 1) != 2) {
-  //   std::cerr << "Wrong format line: \"" << str << "\" from: " << __filePath << std::endl;
-  //   return;
-  // }
-  // std::cout << spaces << std::endl;
-  // std::cout << del << std::endl;
-  // for (unsigned int i = 0; i < spaces + 1; i++) {
-  //   size_t posI = str.find(' ');
-  //   std::string token = str.substr(0, posI);
-  //   str.erase(0, posI + 1);
-  //   for (unsigned int j : {0, 1, 2}) {
-  //     size_t posJ = token.find('/');
-  //     index[j] = std::stoi(token.substr(0, posJ)) - 1;
-  //     token.erase(0, posJ + 1);
-  //   }
-  //   helper::Vertex vertex = {};
-  //   vertex.position = __position[index[0]];
-  //   vertex.color = glm::vec4(0,0,1,1);
-  //   list.push_back(vertex);
-  // }
-  // buildIndices((unsigned int) __vertices.size(), spaces - 1);
-  // __vertices.insert(__vertices.end(), list.begin(), list.end());
 }
 
 void object::ObjLoader::buildIndices(unsigned int start, unsigned int triangle_nb) {

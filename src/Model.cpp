@@ -25,14 +25,3 @@ void scene::Model::loadModel(std::string path) {
   __mesh = new gl_utility::Mesh(vertices, objModel.getIndices());
 }
 
-// void scene::Model::setPosition(glm::vec3 position) {
-//   __position = position;
-// }
-
-// void scene::Model::setOrientation(glm::vec3 orientation) {
-//   __orientation = orientation;
-// }
-
-// void scene::Model::setSize(glm::vec3 size) {
-//   _size = size;
-// }
