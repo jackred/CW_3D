@@ -32,7 +32,7 @@ namespace scene{
     // void setSize(glm::vec3 size);
     
   private:
-    gl_utility::Mesh __mesh;
+    gl_utility::Mesh* __mesh;
   };
 
 #endif /* _MODEL_H_ */

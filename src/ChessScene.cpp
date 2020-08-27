@@ -26,63 +26,142 @@ void scene::ChessScene::onDraw(){
   time += .01;
   __shader.bind();
 
-      
   glm::mat4 view = __camera.getLookAtMatrix();
-      
   glm::mat4 proj = __camera.getProjectionMatrix(__window);
-  
   glUniformMatrix4fv( __viewID, 1, GL_FALSE, glm::value_ptr(view) );
   glUniformMatrix4fv( __projectionID, 1, GL_FALSE, glm::value_ptr(proj) );
       
-  glm::mat4 rotate = glm::rotate(glm::mat4(), 0.0f, glm::vec3(0,0,1));
-  glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(1.0f));
-  glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(0,0,0));
-  glm::mat4 model = translate * rotate * scale;
-  glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-  // king.draw(__shader);
-  // block.draw(__shader);
-  // bloc.draw(__shader);
-  // queen.draw(__shader);
-  // rock.draw(__shader);
-  cube.draw(__shader);
-  // blackTile.draw(__shader);
-  // pyramide.draw(__shader);
-  // pyramide.draw(__shader);
-  // int i;
-  // int j;
-  // for (i = 0; i < 8; i++) {
-  //   for (j = 0; j < 8; j++) {
-  //     translate = glm::translate(glm::mat4(), glm::vec3(i,j,0));
-  //     model = translate * rotate * scale;                        
-  //     glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-  //     if ((i+j) % 2 == 0) {
-  //       blackTile.draw(__shader);
-  //     } else {
-  //       whiteTile.draw(__shader);     
-  //     }
-  //   }
-  // }
-
+  drawBoard();
+  drawPawns();
+  drawQueens();
+  drawKings();
+  drawRocks();
+  drawBishops();
+           
   __shader.unbind();
+}
 
-  int x;
-  //std::cin >> x; 
+void scene::ChessScene::drawBoard() {
+  glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(1.0f));
+  glm::mat4 rotate = glm::rotate(glm::mat4(), 0.0f, glm::vec3(0,0,1));
+  glm::mat4 translate;
+  glm::mat4 model;
+  int i;
+  int j;
+  for (i = 0; i < 8; i++) {
+    for (j = 0; j < 8; j++) {
+      translate = glm::translate(glm::mat4(), glm::vec3(i,j,0));
+      model = translate * rotate * scale;                        
+      glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+      if ((i+j) % 2 == 0) {
+        blackTile.draw(__shader);
+      } else {
+        whiteTile.draw(__shader);     
+      }
+    }
+  }
+}
 
-  //std::cout << __camera.getCamPos()[0]  << " " << __camera.getCamPos()[1] << " " << __camera.getCamPos()[2] << " | " << __camera.getRadius() << std::endl;
+void scene::ChessScene::drawPawns() {
+  glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(-1,0,0));
+  glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(0.1f));
+  glm::mat4 translate;
+  glm::mat4 model;
+  for (auto vec : __play.pawns) {
+    translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,1.5));
+    model = translate * rotate * scale;
+    glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+    if (vec[2] == 1) {
+      bPawn.draw(__shader);
+    } else if (vec[2]== 0) {
+      wPawn.draw(__shader);
+    }
+  }  
+}
 
-  
+void scene::ChessScene::drawQueens() {
+  glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(1,0,0));
+  glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(0.1f));
+
+  glm::mat4 translate;
+  glm::mat4 model;
+  for (auto vec : __play.queens) {
+    translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,2));
+    model = translate * rotate * scale;
+    glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+    if (vec[2] == 1) {
+      bQueen.draw(__shader);
+    } else if (vec[2]== 0) {
+      wQueen.draw(__shader);
+    }
+  }  
+}
+
+void scene::ChessScene::drawKings() {
+  glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(1,0,0));
+  glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(0.1f));
+
+  glm::mat4 translate;
+  glm::mat4 model;
+  for (auto vec : __play.kings) {
+    translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,2));
+    model = translate * rotate * scale;
+    glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+    if (vec[2] == 1) {
+      bKing.draw(__shader);
+    } else if (vec[2]== 0) {
+      wKing.draw(__shader);
+    }
+  }  
+}
+
+void scene::ChessScene::drawRocks() {
+  glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(1,0,0));
+  glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(0.1f));
+  glm::mat4 translate;
+  glm::mat4 model;
+  for (auto vec : __play.rocks) {
+    translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,1.8));
+    model = translate * rotate * scale;
+    glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+    if (vec[2] == 1) {
+      bRock.draw(__shader);
+    } else if (vec[2]== 0) {
+      wRock.draw(__shader);
+    }
+  }  
+}
+
+void scene::ChessScene::drawBishops() {
+  glm::mat4 rotate = glm::rotate(glm::mat4(), glm::radians(90.0f), glm::vec3(1,0,0));
+  glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(0.3f));
+  glm::mat4 translate;
+  glm::mat4 model;
+  for (auto vec : __play.bishops) {
+    translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,1));
+    model = translate * rotate * scale;
+    glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+    if (vec[2] == 1) {
+      bBishop.draw(__shader);
+    } else if (vec[2]== 0) {
+      wBishop.draw(__shader);
+    }
+  }  
 }
 
 void scene::ChessScene::onMouseMove(double x, double y){
 }
 
 void scene::ChessScene::onMouseDown(int button, int action){
-  // if (action==GLFW_PRESS) {
-  //   std::cout << "mouse pressed" << std::endl;
-  // }
-  // if (action==GLFW_RELEASE) {
-  //   std::cout << "mouse released" << std::endl;
-  // }
+  if (action==GLFW_PRESS) {
+    if (button == 0){
+      __turn = std::min(__maxTurn, __turn + 1);
+      __play = play::getPlay(__turn); 
+    } else if (button == 1) {
+      __turn = std::max(__minTurn, __turn - 1);
+      __play = play::getPlay(__turn);
+    }
+  }
 }
 
 void scene::ChessScene::onMouseScroll(double x, double y) {
@@ -102,8 +181,10 @@ void scene::ChessScene::onKeyDown(int key, int action){
     __camera.moveLeft();
   } else if (key == 263) {
     __camera.moveRight();
-  } else if (key == 265) {
-  } else if (key == 264) {
+  } else if (key == 259) {
+    __play = play::getPlay(__turn); 
+  } else if (key == 257) {
+    __play = play::getPlay(0); 
   }
   std::cout << __camera.getCamPos()[0]  << " " << __camera.getCamPos()[1] << " " << __camera.getCamPos()[2] << std::endl;
 

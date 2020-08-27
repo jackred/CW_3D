@@ -56,6 +56,7 @@ set(SOURCE_FILES
   src/Tile.cpp
   src/ObjLoader.cpp
   src/Model.cpp
+  src/KvsD.cpp
   src/ChessScene.cpp
   )
 

@@ -43,10 +43,6 @@ void object::ObjLoader::loadFile(std::ifstream &file) {
     }
     
   }
-  std::cout << "size pos" << __position.size() << std::endl;
-  for (int i = 0; i < __position.size(); i++) {
-    std::cout << __position[i][0] << " " << __position[i][1] << " " << __position[i][2] << std::endl;
-  }
 }
 
 void object::ObjLoader::buildVertices(std::string &str) {
@@ -59,7 +55,6 @@ void object::ObjLoader::buildVertices(std::string &str) {
     return;
   }
   std::vector<helper::Vertex> list;
-  std::cout <<"indices " << vertexIndex[0] << " " << vertexIndex[1] << " " << vertexIndex[2] << " " << std::endl;
   for (int i = 0; i < 3; i++) {
     helper::Vertex vertex = {};
     vertex.position = __position[vertexIndex[i]];
@@ -104,9 +99,26 @@ void object::ObjLoader::buildIndices(unsigned int start, unsigned int triangle_n
     __indices.push_back(start);
     __indices.push_back(start + i + 1);
     __indices.push_back(start + i + 2);
+
+   __indices.push_back(start);
+    __indices.push_back(start + i + 2);
+    __indices.push_back(start + i + 1);
+    
     __indices.push_back(start + i + 1);
     __indices.push_back(start);
     __indices.push_back(start + i + 2);
+    
+    __indices.push_back(start + i + 1);
+    __indices.push_back(start + i + 2);
+    __indices.push_back(start);
+
+    __indices.push_back(start + i + 2);
+    __indices.push_back(start + i + 1);
+    __indices.push_back(start);
+    
+    __indices.push_back(start + i + 2);
+    __indices.push_back(start);
+    __indices.push_back(start + i + 1);
   }
 }
 
