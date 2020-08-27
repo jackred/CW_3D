@@ -71,9 +71,9 @@ void scene::ChessScene::drawPawns() {
     translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,1.5));
     model = translate * rotate * scale;
     glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-    if (vec[2] == 1) {
+    if (vec[2] == 0) {
       bPawn.draw(__shader);
-    } else if (vec[2]== 0) {
+    } else if (vec[2]== 1) {
       wPawn.draw(__shader);
     }
   }  
@@ -89,9 +89,9 @@ void scene::ChessScene::drawQueens() {
     translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,2));
     model = translate * rotate * scale;
     glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-    if (vec[2] == 1) {
+    if (vec[2] == 0) {
       bQueen.draw(__shader);
-    } else if (vec[2]== 0) {
+    } else if (vec[2]== 1) {
       wQueen.draw(__shader);
     }
   }  
@@ -107,9 +107,9 @@ void scene::ChessScene::drawKings() {
     translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,2));
     model = translate * rotate * scale;
     glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-    if (vec[2] == 1) {
+    if (vec[2] == 0) {
       bKing.draw(__shader);
-    } else if (vec[2]== 0) {
+    } else if (vec[2]== 1) {
       wKing.draw(__shader);
     }
   }  
@@ -124,9 +124,9 @@ void scene::ChessScene::drawRocks() {
     translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,1.8));
     model = translate * rotate * scale;
     glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-    if (vec[2] == 1) {
+    if (vec[2] == 0) {
       bRock.draw(__shader);
-    } else if (vec[2]== 0) {
+    } else if (vec[2]== 1) {
       wRock.draw(__shader);
     }
   }  
@@ -141,9 +141,9 @@ void scene::ChessScene::drawBishops() {
     translate = glm::translate(glm::mat4(), glm::vec3(vec[0] + 0.5f, vec[1] + 0.5f,1));
     model = translate * rotate * scale;
     glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-    if (vec[2] == 1) {
+    if (vec[2] == 0) {
       bBishop.draw(__shader);
-    } else if (vec[2]== 0) {
+    } else if (vec[2]== 1) {
       wBishop.draw(__shader);
     }
   }  
