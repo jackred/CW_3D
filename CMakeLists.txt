@@ -54,6 +54,8 @@ set(SOURCE_FILES
   src/Shader.cpp
   src/Mesh.cpp
   src/Tile.cpp
+  src/ObjLoader.cpp
+  src/Model.cpp
   src/ChessScene.cpp
   )
 

@@ -20,7 +20,7 @@ const GLfloat camera::Camera::getRadius() {
 }
 
 const glm::mat4 camera::Camera::getLookAtMatrix() {
-  return glm::lookAt(__camPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+  return glm::lookAt(__camPos, glm::vec3(__offsetX, __offsetY, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 const glm::mat4 camera::Camera::getProjectionMatrix(window::Window& window) {
@@ -64,7 +64,7 @@ void camera::Camera::moveRight() {
 
 
 void camera::Camera::updatePos() {
-  __camPos[0] = sin(__camX) * __radius;
-  __camPos[1] = cos(__camY) * __radius;
+  __camPos[0] = __offsetX + sin(__camX) * __radius;
+  __camPos[1] = __offsetY + cos(__camY) * __radius;
 }
 

@@ -31,6 +31,7 @@ namespace gl_utility {
     
   public:
     Mesh(std::vector<helper::Vertex> vertices,std::vector<unsigned int> indices);
+    Mesh();
     ~Mesh();
     void draw(shader::Shader &shader);
   };

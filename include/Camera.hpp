@@ -22,13 +22,15 @@ namespace camera {
 
   class Camera {
   private:
-    const GLfloat __minZ = 20.0f; // backward
-    const GLfloat __maxZ = 0.0f; // forward
+    const GLfloat __minZ = 40.0f; // backward
+    const GLfloat __maxZ = -40.0f; // forward
     GLfloat __radius = 0.00001f;
     float __fov = 45.0f;
+    GLfloat __offsetX = 4;
+    GLfloat __offsetY = 4;
     GLfloat __camX = 0;
     GLfloat __camY = 0;
-    glm::vec3 __camPos = glm::vec3(sin(__camX) * __radius, cos(__camY) * __radius, __minZ);
+    glm::vec3 __camPos = glm::vec3(__offsetX + sin(__camX) * __radius, __offsetY + cos(__camY) * __radius, __minZ);
     glm::vec3 __camFront = glm::vec3(0.0f, 0.0f, -1.0f);
 
 

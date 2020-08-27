@@ -19,7 +19,6 @@ namespace load {
     void readFile(std::ifstream &file);
   public:
     ShaderLoad(const std::string &file_name);
-    //~ShaderLoad();
     const char* getShader() const;
   };
 }

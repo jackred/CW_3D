@@ -12,6 +12,7 @@
 #include "Camera.hpp"
 #include "Mesh.hpp"
 #include "Tile.hpp"
+#include "Model.hpp"
 
 #define GLM_FORCE_RADIANS
 #include "glm/glm.hpp"
@@ -31,6 +32,13 @@ namespace scene {
     gl_utility::Mesh blackTile = gl_utility::Mesh(object::getTileOfColor(glm::vec4(0,0,0,1)), object::getindicesTile());
     gl_utility::Mesh whiteTile = gl_utility::Mesh(object::getTileOfColor(glm::vec4(1,1,1,1)), object::getindicesTile());
     gl_utility::Mesh pyramide = gl_utility::Mesh(object::getPyramide(), object::getIndicesPyramide());
+    // scene::Model block = scene::Model("../object/block.obj", glm::vec4(1,1,1,1));
+    // scene::Model bloc = scene::Model("../object/bloc.obj", glm::vec4(1,1,1,1));
+    // scene::Model king = scene::Model("../object/king.obj", glm::vec4(1,1,1,1));
+    // scene::Model queen = scene::Model("../object/queen.obj", glm::vec4(1,1,1,1));
+    // scene::Model rock = scene::Model("../object/rock.obj", glm::vec4(1,1,1,1));
+    scene::Model cube = scene::Model("../object/cube.obj", glm::vec4(1,1,1,1));
+
     GLuint __modelID;
     GLuint __viewID;
     GLuint __projectionID;

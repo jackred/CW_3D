@@ -39,29 +39,36 @@ void scene::ChessScene::onDraw(){
   glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(0,0,0));
   glm::mat4 model = translate * rotate * scale;
   glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-  //blackTile.draw(__shader);
+  // king.draw(__shader);
+  // block.draw(__shader);
+  // bloc.draw(__shader);
+  // queen.draw(__shader);
+  // rock.draw(__shader);
+  cube.draw(__shader);
+  // blackTile.draw(__shader);
   // pyramide.draw(__shader);
   // pyramide.draw(__shader);
-  int i;
-  int j;
-  for (i = -4; i < 4; i++) {
-    for (j = -4; j < 4; j++) {
-      translate = glm::translate(glm::mat4(), glm::vec3(i,j,0));
-      model = translate * rotate * scale;                        
-      glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
-      if ((i+j) % 2 == 0) {
-        blackTile.draw(__shader);
-      } else {
-        whiteTile.draw(__shader);     
-      }
-    }
-  }
+  // int i;
+  // int j;
+  // for (i = 0; i < 8; i++) {
+  //   for (j = 0; j < 8; j++) {
+  //     translate = glm::translate(glm::mat4(), glm::vec3(i,j,0));
+  //     model = translate * rotate * scale;                        
+  //     glUniformMatrix4fv( __modelID, 1, GL_FALSE, glm::value_ptr(model) );
+  //     if ((i+j) % 2 == 0) {
+  //       blackTile.draw(__shader);
+  //     } else {
+  //       whiteTile.draw(__shader);     
+  //     }
+  //   }
+  // }
 
   __shader.unbind();
 
+  int x;
+  //std::cin >> x; 
 
-
-  std::cout << __camera.getCamPos()[0]  << " " << __camera.getCamPos()[1] << " " << __camera.getCamPos()[2] << " | " << __camera.getRadius() << std::endl;
+  //std::cout << __camera.getCamPos()[0]  << " " << __camera.getCamPos()[1] << " " << __camera.getCamPos()[2] << " | " << __camera.getRadius() << std::endl;
 
   
 }
@@ -70,12 +77,12 @@ void scene::ChessScene::onMouseMove(double x, double y){
 }
 
 void scene::ChessScene::onMouseDown(int button, int action){
-  if (action==GLFW_PRESS) {
-    std::cout << "mouse pressed" << std::endl;
-  }
-  if (action==GLFW_RELEASE) {
-    std::cout << "mouse released" << std::endl;
-  }
+  // if (action==GLFW_PRESS) {
+  //   std::cout << "mouse pressed" << std::endl;
+  // }
+  // if (action==GLFW_RELEASE) {
+  //   std::cout << "mouse released" << std::endl;
+  // }
 }
 
 void scene::ChessScene::onMouseScroll(double x, double y) {

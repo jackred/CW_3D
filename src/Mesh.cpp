@@ -14,6 +14,9 @@ gl_utility::Mesh::Mesh(std::vector<helper::Vertex> vertices, std::vector<unsigne
   
 }
 
+gl_utility::Mesh::Mesh(){
+}
+
 gl_utility::Mesh::~Mesh(){
   glDeleteBuffers(1, &__vboID);
 	glDeleteVertexArrays(1, &__vaoID);
@@ -47,6 +50,10 @@ void gl_utility::Mesh::initMesh() {
 
 
 void gl_utility::Mesh::draw(shader::Shader &shader){
+  for (int i = 0; i < 3; i++){
+    std::cout << "position >>" << __vertices[i].position[0] << " " << __vertices[i].position[1] << " " << __vertices[i].position[2] << " | " << __vertices[i].color[0] << " " << __vertices[i].color[1]  << " " << __vertices[i].color[2] << " " << __vertices[i].color[3] <<  std::endl;
+  }
+  std::cout << "---" << std::endl;
   glBindVertexArray(__vaoID);
   glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, __vbeID);
   glDrawElements(GL_TRIANGLES, __indices.size(), GL_UNSIGNED_INT, 0);
